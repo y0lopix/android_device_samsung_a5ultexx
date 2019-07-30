@@ -1,0 +1,4 @@
+type_transition wcnss_service persist_file:file wifi_data_file "wlan_mac.bin";
+allow wcnss_service efs_file:dir search;
+allow wcnss_service wifi_efs_file:dir search;
+allow wcnss_service wifi_efs_file:file r_file_perms;

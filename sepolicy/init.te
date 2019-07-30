@@ -1,0 +1,60 @@
+selinux_check_context(init)
+
+allow init {
+    sysfs_iio
+    sysfs_sec_tsp
+    sysfs_sensors
+}:lnk_file read;
+
+allow init {
+    sysfs_audio
+    sysfs_batteryinfo
+    sysfs_bluetooth_writable
+    sysfs_camera
+    sysfs_graphics
+    sysfs_iio
+    sysfs_input
+    sysfs_kgsl
+    sysfs_leds
+    sysfs_mdnie
+    sysfs_msmuart_file
+    sysfs_sec_bamdmux
+    sysfs_sec_barcode_emul
+    sysfs_sec_epen
+    sysfs_sec_ir
+    sysfs_sec_key
+    sysfs_sec_led
+    sysfs_sec_switch
+    sysfs_sec_thermistor
+    sysfs_sec_touchkey
+    sysfs_sec_tsp
+    sysfs_sensors
+    sysfs_socinfo
+    sysfs_usb_otg
+}:file setattr;
+
+allow init {
+    sysfs_cpu_boost
+    sysfs_devices_system_cpu
+    sysfs_lowmemorykiller
+    sysfs_mmc_host
+    sysfs_msm_perf
+    sysfs_msm_power
+    sysfs_sec_key
+    sysfs_thermal
+}:file w_file_perms;
+
+allow init proc_sec_simslot:file r_file_perms;
+allow init clatd_exec:file getattr;
+allow init dex2oat_exec:file getattr;
+allow init dnsmasq_exec:file getattr;
+allow init hostapd_exec:file getattr;
+allow init idmap_exec:file getattr;
+allow init ppp_exec:file getattr;
+allow init profman_exec:file getattr;
+allow init runas_exec:file getattr;
+allow init sgdisk_exec:file getattr;
+allow init userinit_exec:file getattr;
+allow init blkid_exec:file getattr;
+allow init debugfs:file write;
+allow init sdcardd_exec:file getattr;
