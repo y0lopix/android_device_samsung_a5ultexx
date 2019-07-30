@@ -93,9 +93,10 @@ PRODUCT_PACKAGES += \
 # Camera
 PRODUCT_PACKAGES += \
     android.hardware.camera.provider@2.4-impl \
+    camera.device@1.0-impl \
     libmm-qcamera \
     camera.msm8916 \
-    Camera2
+    Snap
 
 PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/configs/external_camera_config.xml:$(TARGET_COPY_OUT_VENDOR)/etc/external_camera_config.xml
@@ -176,10 +177,6 @@ PRODUCT_PACKAGES += \
     com.android.location.provider.xml \
     gps.msm8916 \
     libshim_gps
-
-# Headers
-PRODUCT_VENDOR_KERNEL_HEADERS := \
-    hardware/qcom/msm8916/kernel-headers
 
 # Keylayout
 PRODUCT_COPY_FILES += \
