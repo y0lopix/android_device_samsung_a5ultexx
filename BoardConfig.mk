@@ -244,6 +244,7 @@ TARGET_PLATFORM_DEVICE_BASE := /devices/soc.0/
 PROTOBUF_SUPPORTED := true
 HAVE_SYNAPTICS_I2C_RMI4_FW_UPGRADE := true
 
+# ReleaseTools
 TARGET_RELEASETOOLS_EXTENSIONS := $(DEVICE_PATH)/releasetools
 
 # Recovery
@@ -287,9 +288,8 @@ DEVICE_MATRIX_FILE := $(DEVICE_PATH)/compatibility_matrix.xml
 # Shims
 TARGET_LD_SHIM_LIBS := \
     /system/lib/libmmjpeg_interface.so|libboringssl-compat.so \
-    /system/lib/libsec-ril.so|libshim_secril.so \
-    /system/lib/libsec-ril-dsds.so|libshim_secril.so \
-    /system/lib/hw/camera.vendor.msm8916.so|libcamera_shim.so \
+    /system/lib/libsec-ril.so|libsec-ril_shim.so \
+    /system/lib/libsec-ril-dsds.so|libsec-ril_shim.so \
     /system/vendor/lib/libizat_core.so|libshim_gps.so \
     /system/vendor/lib/libqomx_jpegenc.so|libboringssl-compat.so
 

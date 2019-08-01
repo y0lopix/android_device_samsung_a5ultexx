@@ -91,34 +91,6 @@ else
         echo 53059 > /sys/module/lowmemorykiller/parameters/vmpressure_file_min
     fi
 
-    # Check if zram is enabled
-    zram_enable=`getprop ro.config.zram.enabled`
-    if [ "$zram_enable" == "true" ]; then
-        # Zram disk - default is 256MB size
-        zram_size=`getprop ro.config.zram.size`
-
-        # minimum in MB
-        minimum_size=128
-
-        # calculate maximum to 75% of actual memory (in B)
-        maximum_disk_size=$(expr $((${MemTotal}*1024)) \* 75 \/ 100)
-
-        if [ "$zram_size" -lt "$minimum_size" ]; then
-            zram_size="$minimum_size"
-        fi
-
-        # calculate zram disk size
-        zram_disk_size=$((1024*1024*${zram_size}))
-
-        # validate disk size
-        if [ "$zram_disk_size" -gt "$maximum_disk_size" ]; then
-            zram_disk_size="$maximum_disk_size"
-        fi
-
-        echo $zram_disk_size > /sys/block/zram0/disksize
-        mkswap /dev/block/zram0
-        swapon /dev/block/zram0 -p 32758
-    fi
 fi
 }
 
@@ -219,22 +191,15 @@ case "$target" in
                 echo 1 > /sys/devices/system/cpu/cpu0/online
                 echo "interactive" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
                 echo 200000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
-
-                echo 4 > /sys/devices/system/cpu/cpu0/core_ctl/max_cpus
-                echo 2 > /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
-                echo 68 > /sys/devices/system/cpu/cpu0/core_ctl/busy_up_thres
-                echo 40 > /sys/devices/system/cpu/cpu0/core_ctl/busy_down_thres
-                echo 100 > /sys/devices/system/cpu/cpu0/core_ctl/offline_delay_ms
-
                 # enable thermal core_control now
                 echo 1 > /sys/module/msm_thermal/core_control/enabled
 
-                echo "25000 1363200:30000 1401600:35000 1478400:50000" > /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay
-                echo 95 > /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load
-                echo 20000 > /sys/devices/system/cpu/cpufreq/interactive/timer_rate
-                echo 1612800 > /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq
+                echo "25000 1094400:50000" > /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay
+                echo 90 > /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load
+                echo 30000 > /sys/devices/system/cpu/cpufreq/interactive/timer_rate
+                echo 998400 > /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq
                 echo 0 > /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
-                echo "1 200000:15 400000:20 533330:35 800000:50 998400:60 1094400:70" > /sys/devices/system/cpu/cpufreq/interactive/target_loads
+                echo "1 200000:40 400000:50 533333:70 800000:82 998400:90 1094400:95 1209600:99" > /sys/devices/system/cpu/cpufreq/interactive/target_loads
                 echo 50000 > /sys/devices/system/cpu/cpufreq/interactive/min_sample_time
                 echo 50000 > /sys/devices/system/cpu/cpufreq/interactive/max_freq_hysteresis
 

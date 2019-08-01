@@ -31,9 +31,6 @@ TARGET_BOOT_ANIMATION_RES := 720
 # Inherit some common LineageOS stuff.
 $(call inherit-product, vendor/lineage/config/common_full_phone.mk)
 
-# Inherit from those products. Most specific first.
-$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
-
 # Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := a5ultexx
 PRODUCT_NAME := lineage_a5ultexx
@@ -42,10 +39,6 @@ PRODUCT_MODEL := SM-A500FU
 PRODUCT_MANUFACTURER := samsung
 PRODUCT_CHARACTERISTICS := phone
 PRODUCT_GMS_CLIENTID_BASE := android-samsung
-TARGET_ARCH := arm
-TARGET_DENSITY := hdpi
-TARGET_GAPPS_ARCH := arm
-TARGET_MINIMAL_APPS := true
 
 PRODUCT_BUILD_PROP_OVERRIDES += \
     TARGET_DEVICE="a5ultexx" \

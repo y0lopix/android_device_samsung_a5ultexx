@@ -32,6 +32,8 @@ on init
     chmod 0660 /sys/class/android_usb/android0/terminal_version
 
 on charger
+    write /sys/fs/selinux/enforce 0
+    class_start charger
     setprop sys.usb.config mass_storage
 
 on fs
@@ -1370,4 +1372,3 @@ on property:sys.usb.config=charging
     write /sys/class/android_usb/android0/idProduct F006
     write /sys/class/android_usb/android0/functions charging
     write /sys/class/android_usb/android0/enable 1
-    setprop sys.usb.state ${sys.usb.config}
