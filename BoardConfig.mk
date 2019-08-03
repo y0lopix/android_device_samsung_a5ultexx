@@ -55,7 +55,6 @@ TARGET_USES_64_BIT_BINDER := true
 
 # Bluetooth
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_PATH)/bluetooth
-BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_QCOM := true
 QCOM_BT_USE_BTNV := true
 BLUETOOTH_HCI_USE_MCT := true
@@ -69,12 +68,9 @@ BOARD_PROVIDES_BOOTLOADER_MESSAGE := false
 TARGET_BOOTLOADER_BOARD_NAME := MSM8916
 
 # Camera
-BOARD_GLOBAL_CFLAGS += -DMETADATA_CAMERA_SOURCE
+BOARD_CAMERA_SENSORS := imx135 s5k5e3yx
 TARGET_HAS_LEGACY_CAMERA_HAL1 := true
-TARGET_NEEDS_LEGACY_CAMERA_HAL1_DYN_NATIVE_HANDLE := true
 TARGET_PROVIDES_CAMERA_HAL := true
-TARGET_USE_VENDOR_CAMERA_EXT := true
-TARGET_USES_QTI_CAMERA_DEVICE := true
 USE_DEVICE_SPECIFIC_CAMERA := true
 
 # Charger
@@ -139,10 +135,8 @@ TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 
 # FM
-AUDIO_FEATURE_ENABLED_FM := true
 TARGET_QCOM_NO_FM_FIRMWARE := true
 BOARD_HAVE_QCOM_FM := true
-AUDIO_FEATURE_ENABLED_FM_POWER_OPT := true
 
 # GPS
 TARGET_NO_RPC := true
@@ -228,10 +222,11 @@ TARGET_PROCESS_SDK_VERSION_OVERRIDE += \
     /system/vendor/bin/hw/rild=27
 
 # Power
-TARGET_HAS_NO_POWER_STATS := true
-TARGET_HAS_LEGACY_POWER_STATS := true
-TARGET_HAS_NO_WIFI_STATS := true
-TARGET_USES_INTERACTION_BOOST := true
+#TARGET_HAS_NO_POWER_STATS := true
+#TARGET_HAS_LEGACY_POWER_STATS := true
+#TARGET_HAS_NO_WIFI_STATS := true
+#TARGET_USES_INTERACTION_BOOST := true
+TARGET_POWERHAL_VARIANT := qcom
 TARGET_POWERHAL_SET_INTERACTIVE_EXT = $(DEVICE_PATH)/power/power_ext.c
 
 # Touchscreen
@@ -290,7 +285,7 @@ TARGET_LD_SHIM_LIBS := \
     /system/lib/libmmjpeg_interface.so|libboringssl-compat.so \
     /system/lib/libsec-ril.so|libsec-ril_shim.so \
     /system/lib/libsec-ril-dsds.so|libsec-ril_shim.so \
-    /system/vendor/lib/libizat_core.so|libshim_gps.so \
+    /system/vendor/lib/libizat_core.so|libizat_core_shim.so \
     /system/vendor/lib/libqomx_jpegenc.so|libboringssl-compat.so
 
 # Snapdragon LLVM
