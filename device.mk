@@ -161,7 +161,7 @@ PRODUCT_PACKAGES += \
     com.android.location.provider \
     com.android.location.provider.xml \
     gps.msm8916 \
-    libshim_gps
+    libizat_core_shim
 
 # Keylayout
 PRODUCT_COPY_FILES += \
