@@ -1,9 +1,5 @@
 package org.davis.inputdisabler;
 
-/*
- * Created by Dāvis Mālnieks on 04/10/2015
- */
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -12,115 +8,115 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Handler;
+import android.provider.Settings.Secure;
 import android.telephony.TelephonyManager;
-import android.util.Log;
-
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import org.davis.inputdisabler.Constants;
+import org.davis.inputdisabler.utils.Device;
 
 public class ScreenStateReceiver extends BroadcastReceiver implements SensorEventListener {
-
-    public static final String TAG = "ScreenStateReceiver";
-
-    public static final boolean DEBUG = true;
-
+    static int mScreenState = 0;
+    Handler mDozeDisable;
+    Sensor mSensor;
     SensorManager mSensorManager;
 
-    Sensor mSensor;
-
-    @Override
     public void onReceive(Context context, Intent intent) {
-
-        if(DEBUG){
-            Log.d(TAG, "Received intent");
-        }
-        
-        switch (intent.getAction()) {
-            case Intent.ACTION_SCREEN_ON:
-                Log.d(TAG, "Screen on!");
-                enableDevices(true);
-                break;
-            case Intent.ACTION_SCREEN_OFF:
-                Log.d(TAG, "Screen off!");
-                enableDevices(false);
-                break;
-            case TelephonyManager.ACTION_PHONE_STATE_CHANGED:
-                Log.d(TAG, "Phone state changed!");
-            
-                final TelephonyManager telephonyManager =
-                        (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-            
-                switch (telephonyManager.getCallState()) {
-                    case TelephonyManager.CALL_STATE_OFFHOOK:
-                        mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-                        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
-                        mSensorManager.registerListener(this, mSensor, 3);
-                        break;
-                    case TelephonyManager.CALL_STATE_IDLE:
-                        if(mSensorManager != null) {
-                            mSensorManager.unregisterListener(this);
+        if (intent != null) {
+            final int i = Secure.getInt(context.getContentResolver(), "double_tap_to_wake", 0);
+            String action = intent.getAction();
+            char c = 65535;
+            int hashCode = action.hashCode();
+            if (hashCode != -2128145023) {
+                if (hashCode != -1454123155) {
+                    if (hashCode != -1326089125) {
+                        if (hashCode == 1121528778 && action.equals("android.intent.action.DOZE_PULSE_STARTING")) {
+                            c = 2;
                         }
-                    break;
+                    } else if (action.equals("android.intent.action.PHONE_STATE")) {
+                        c = 3;
+                    }
+                } else if (action.equals("android.intent.action.SCREEN_ON")) {
+                    c = 0;
                 }
-            break;
+            } else if (action.equals("android.intent.action.SCREEN_OFF")) {
+                c = 1;
+            }
+            switch (c) {
+                case 0:
+                    handleScreenOn(true);
+                    mScreenState = 1;
+                    break;
+                case 1:
+                    if (i != 0) {
+                        Device.enableKeys(false);
+                    } else {
+                        Device.enableDevices(false);
+                    }
+                    mScreenState = 0;
+                    break;
+                case 2:
+                    mScreenState = 2;
+                    this.mDozeDisable = new Handler();
+                    this.mDozeDisable.postDelayed(new Runnable() {
+                        public void run() {
+                            switch (ScreenStateReceiver.mScreenState) {
+                                case 2:
+                                    ScreenStateReceiver.mScreenState = 0;
+                                    if (i != 0) {
+                                        Device.enableKeys(false);
+                                        return;
+                                    } else {
+                                        Device.enableDevices(false);
+                                        return;
+                                    }
+                                default:
+                                    return;
+                            }
+                        }
+                    }, 5000);
+                    handleScreenOn(false);
+                    break;
+                case 3:
+                    int callState = ((TelephonyManager) context.getSystemService("phone")).getCallState();
+                    if (callState != 0) {
+                        if (callState == 2) {
+                            this.mSensorManager = (SensorManager) context.getSystemService("sensor");
+                            this.mSensor = this.mSensorManager.getDefaultSensor(8);
+                            this.mSensorManager.registerListener(this, this.mSensor, 3);
+                            break;
+                        }
+                    } else {
+                        if (this.mSensorManager != null) {
+                            this.mSensorManager.unregisterListener(this);
+                        }
+                        if (mScreenState != 1) {
+                            handleScreenOn(true);
+                            mScreenState = 1;
+                            break;
+                        }
+                    }
+                    break;
+            }
         }
     }
-    
-    @Override
+
     public void onSensorChanged(SensorEvent sensorEvent) {
-        if(sensorEvent.values[0] == 0.0f) {
-            if(DEBUG){
-                Log.d(TAG, "Proximity: screen off");
-            }
-            enableDevices(false);
-        } else {
-            if(DEBUG){
-                Log.d(TAG, "Proximity: screen on");
-            }
-            enableDevices(true);
+        if (sensorEvent.values[0] == 0.0f) {
+            Device.enableDevices(false);
+            mScreenState = 0;
+            return;
         }
+        handleScreenOn(true);
+        mScreenState = 1;
     }
 
-    
-    // Wrapper method
-    private void enableDevices(boolean enable) {
-        boolean ret;
-        if(enable) {
-            // Turn on touch input
-            ret = write_sysfs(Constants.getTsPath(), true);
-            if(DEBUG){
-               Log.d(TAG, "Enabled touchscreen successfully? :" + ret);
-            }   
-        } else {
-            // Turn off touch input
-            ret = write_sysfs(Constants.getTsPath(), false);
-            if(DEBUG){
-                Log.d(TAG, "Disabled touchscreen successfully? :" + ret);
-            }   
-        }
-    }
-
-    // Writes to sysfs node, returns true if success, false if fail
-    private boolean write_sysfs(String path, boolean on) {
-        try {
-            FileOutputStream fos = new FileOutputStream(path);
-            byte[] bytes = new byte[2];
-            bytes[0] = (byte)(on ? '1' : '0');
-            bytes[1] = '\n';
-            fos.write(bytes);
-            fos.close();
-        } catch (Exception e) {
-            Log.e(TAG, "Failure: " + e.getLocalizedMessage());
-            return false;
-        }
-        
-        return true;
-    }
-	
-	@Override
     public void onAccuracyChanged(Sensor sensor, int i) {
+    }
 
+    private void handleScreenOn(boolean z) {
+        if (z) {
+            Device.enableKeys(true);
+        }
+        Device.enableTouch(true);
+        Device.enableTouch(false);
+        Device.enableTouch(true);
     }
 }
