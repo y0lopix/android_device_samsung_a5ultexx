@@ -96,13 +96,13 @@ on boot
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/device/extldo
     chmod 0660 /sys/class/rfkill/rfkill0/device/extldo
 
-    # For SEC NFC
-    #chmod 0660 /dev/sec-nfc
-    #chown nfc nfc /dev/sec-nfc
+    # SEC NFC
+    chmod 0660 /dev/sec-nfc
+    chown nfc nfc /dev/sec-nfc
 
     # For PN547 NFC
-    #chmod 0660 /dev/pn547
-    #chown nfc nfc /dev/pn547
+    chmod 0660 /dev/pn547
+    chown nfc nfc /dev/pn547
 
     # Touch Disabler permissions
     chown system system /sys/class/touch_key
@@ -388,7 +388,7 @@ on property:ro.config.ksm=true
 # Enable zram
 on property:ro.config.zram=true
     write /proc/sys/vm/page-cluster 0
-    write /proc/sys/vm/swappiness 100
+    write /proc/sys/vm/swappiness 60
 
 # Allow usb charging to be disabled peristently
 on property:persist.usb.chgdisabled=1
@@ -479,11 +479,11 @@ on post-fs-data
     mkdir /data/connectivity 0771 system system
     chown system system /data/connectivity
 
-    # For SEC NFC
-    #chmod 0770 /data/nfc
-    #chown nfc nfc /data/nfc
-    #chmod 0770 /data/nfc/param
-    #chown nfc nfc /data/nfc/param
+    # SEC NFC
+    chmod 0770 /data/nfc
+    chown nfc nfc /data/nfc
+    chmod 0770 /data/nfc/param
+    chown nfc nfc /data/nfc/param
 
     # Create the directories used by DPM subsystem
     mkdir /data/dpm 0771 system system
@@ -564,8 +564,8 @@ on post-fs-data
     mkdir /persist/drm 0770 system system
 
     # NFC local data and nfcee xml storage
-    #mkdir /data/nfc 0770 nfc nfc
-    #mkdir /data/nfc/param 0770 nfc nfc
+    mkdir /data/nfc 0770 nfc nfc
+    mkdir /data/nfc/param 0770 nfc nfc
 
     # Sensor
     mkdir /persist/sensors 0770 system system
@@ -744,7 +744,7 @@ on property:vendor.bluetooth.hciattach=false
 service qmuxd /system/bin/qmuxd
     class main
     user root
-    group radio audio bluetooth gps diag
+    group radio audio bluetooth gps nfc diag
 
 service netmgrd /system/bin/netmgrd
     class main
