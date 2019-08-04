@@ -96,13 +96,13 @@ on boot
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/device/extldo
     chmod 0660 /sys/class/rfkill/rfkill0/device/extldo
 
-    # SEC NFC
-    chmod 0660 /dev/sec-nfc
-    chown nfc nfc /dev/sec-nfc
+    # For SEC NFC
+    #chmod 0660 /dev/sec-nfc
+    #chown nfc nfc /dev/sec-nfc
 
     # For PN547 NFC
-    chmod 0660 /dev/pn547
-    chown nfc nfc /dev/pn547
+    #chmod 0660 /dev/pn547
+    #chown nfc nfc /dev/pn547
 
     # Touch Disabler permissions
     chown system system /sys/class/touch_key
@@ -252,6 +252,9 @@ on boot
     chown system media_rw /sys/class/graphics/fb0/csc_cfg
     chmod 0660 /sys/class/graphics/fb0/csc_cfg
 
+# Permissions required for power HAL
+    chown system system /sys/devices/system/cpu/cpu0/core_ctl/max_cpus
+
 # Wifi firmware reload path
     chown wifi wifi /sys/module/wlan/parameters/fwpath
 
@@ -385,7 +388,7 @@ on property:ro.config.ksm=true
 # Enable zram
 on property:ro.config.zram=true
     write /proc/sys/vm/page-cluster 0
-    write /proc/sys/vm/swappiness 60
+    write /proc/sys/vm/swappiness 100
 
 # Allow usb charging to be disabled peristently
 on property:persist.usb.chgdisabled=1
@@ -477,10 +480,10 @@ on post-fs-data
     chown system system /data/connectivity
 
     # For SEC NFC
-    chmod 0770 /data/nfc
-    chown nfc nfc /data/nfc
-    chmod 0770 /data/nfc/param
-    chown nfc nfc /data/nfc/param
+    #chmod 0770 /data/nfc
+    #chown nfc nfc /data/nfc
+    #chmod 0770 /data/nfc/param
+    #chown nfc nfc /data/nfc/param
 
     # Create the directories used by DPM subsystem
     mkdir /data/dpm 0771 system system
@@ -561,8 +564,8 @@ on post-fs-data
     mkdir /persist/drm 0770 system system
 
     # NFC local data and nfcee xml storage
-    mkdir /data/nfc 0770 nfc nfc
-    mkdir /data/nfc/param 0770 nfc nfc
+    #mkdir /data/nfc 0770 nfc nfc
+    #mkdir /data/nfc/param 0770 nfc nfc
 
     # Sensor
     mkdir /persist/sensors 0770 system system
@@ -601,7 +604,7 @@ service qcamerasvr /system/bin/mm-qcamera-daemon
 service qseecomd /system/bin/qseecomd
    class core
    user root
-   group 
+   group root
 
 service perfd /system/bin/perfd
    class main
@@ -705,6 +708,7 @@ service rmt_storage /system/bin/rmt_storage
     user root
     group system wakelock
     disabled
+    shutdown critical
 
 on property:wc_transport.start_hci=true
     start start_hci_filter
@@ -740,7 +744,7 @@ on property:vendor.bluetooth.hciattach=false
 service qmuxd /system/bin/qmuxd
     class main
     user root
-    group radio audio bluetooth gps nfc diag
+    group radio audio bluetooth gps diag
 
 service netmgrd /system/bin/netmgrd
     class main

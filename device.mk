@@ -296,7 +296,7 @@ PRODUCT_PACKAGES += \
 # Radio
 PRODUCT_PACKAGES += \
     librmnetctl \
-    libshim_secril \
+    libsec-ril_shim \
     libxml2 \
     macloader \
     rmnetcli
@@ -306,7 +306,6 @@ PRODUCT_PACKAGES += \
     fstab.qcom \
     init.carrier.rc \
     init.class_main.sh \
-    init.link_ril_db.sh \
     init.qcom.early_boot.sh \
     init.qcom.fm.sh \
     init.qcom.bt.sh \
