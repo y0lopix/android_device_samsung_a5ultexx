@@ -29,7 +29,7 @@ import org.lineageos.internal.util.FileUtils;
 
 public class KeyDisabler {
 
-    private static String KEYDISABLER_PATH = "/sys/class/sec/sec_touchkey/input";
+    private static String KEYDISABLER_PATH = "/sys/class/sec/sec_touchkey/input/enabled";
     /*
      * All HAF classes should export this boolean.
      * Real implementations must, of course, return true

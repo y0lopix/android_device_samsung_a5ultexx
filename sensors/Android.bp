@@ -1,5 +1,5 @@
 cc_library_static {
-    name: "multihal-kiwi",
+    name: "multihal-a5",
     vendor: true,
     srcs: [
         "multihal.cpp",
