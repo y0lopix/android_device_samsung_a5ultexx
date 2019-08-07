@@ -25,23 +25,19 @@ def IncrementalOTA_InstallEnd(self):
 
 def AddFirmwareFlash(self, input_zip):
   """Include required binaries to the output zip"""
-  
   self.script.AppendExtra('if is_substring("A500HXX", getprop("ro.bootloader")) then')
   self.script.AppendExtra('ui_print("Hardware detected: A500H");')
   self.script.Mount("/system")
-  
-  self.script.AppendExtra('run_program("/sbin/sh", "-c", "busybox sed -i -e 's/a5ultexx/a53g/g' /system/build.prop /system/vendor/build.prop");')
-  self.script.AppendExtra('run_program("/sbin/sh", "-c", "busybox sed -i -e 's/SM-A500FU/SM-A500H/g' /system/build.prop /system/vendor/build.prop");')
-  self.script.AppendExtra('run_program("/sbin/sh", "-c", "busybox rm -f /system/vendor/etc/permissions/*nfc*");')
-  self.script.AppendExtra('run_program("/sbin/sh", "-c", "busybox rm -f /system/vendor/etc/nfc*");')
-  self.script.AppendExtra('run_program("/sbin/sh", "-c", "busybox rm -f /system/lib/libnfc*");')
-  self.script.AppendExtra('run_program("/sbin/sh", "-c", "busybox rm -f /system/vendor/bin/hw/*nfc*");')
-  self.script.AppendExtra('run_program("/sbin/sh", "-c", "busybox rm -f /system/vendor/etc/init/*nfc*");')
-  self.script.AppendExtra('run_program("/sbin/sh", "-c", "busybox rm -f /system/vendor/lib/hw/nfc*");')
-  self.script.AppendExtra('run_program("/sbin/sh", "-c", "busybox rm -f /system/vendor/lib/hw/*nfc*");')
-  self.script.AppendExtra('run_program("/sbin/sh", "-c", "busybox rm -f /system/vendor/etc/nfc");')
-  self.script.AppendExtra('run_program("/sbin/sh", "-c", "busybox rm -f /system/vendor/firmware/nfc");')
-  self.script.AppendExtra('run_program("/sbin/sh", "-c", "busybox rm -f /system/vendor/lib/*nfc*");')
+  self.script.AppendExtra('run_program("/sbin/sh", "-c", "busybox rm -rf /system/vendor/etc/permissions/*nfc*");')
+  self.script.AppendExtra('run_program("/sbin/sh", "-c", "busybox rm -rf /system/vendor/etc/nfc*");')
+  self.script.AppendExtra('run_program("/sbin/sh", "-c", "busybox rm -rf /system/lib/libnfc*");')
+  self.script.AppendExtra('run_program("/sbin/sh", "-c", "busybox rm -rf /system/vendor/bin/hw/*nfc*");')
+  self.script.AppendExtra('run_program("/sbin/sh", "-c", "busybox rm -rf /system/vendor/etc/init/*nfc*");')
+  self.script.AppendExtra('run_program("/sbin/sh", "-c", "busybox rm -rf /system/vendor/lib/hw/nfc*");')
+  self.script.AppendExtra('run_program("/sbin/sh", "-c", "busybox rm -rf /system/vendor/lib/hw/*nfc*");')
+  self.script.AppendExtra('run_program("/sbin/sh", "-c", "busybox rm -rf /system/vendor/etc/nfc");')
+  self.script.AppendExtra('run_program("/sbin/sh", "-c", "busybox rm -rf /system/vendor/firmware/nfc");')
+  self.script.AppendExtra('run_program("/sbin/sh", "-c", "busybox rm -rf /system/vendor/lib/*nfc*");')
   self.script.Unmount("/system")
   self.script.AppendExtra('endif;')
 
