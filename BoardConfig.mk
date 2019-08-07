@@ -147,11 +147,7 @@ TARGET_USES_C2D_COMPOSITION := true
 TARGET_USES_ION := true
 
 # Healthd
-ifneq ($(PRODUCT_IS_LINEAGE),false)
-BOARD_HAL_STATIC_LIBRARIES := libhealthd.lineage
-else
 BOARD_HAL_STATIC_LIBRARIES := libhealthd.default
-endif
 
 # Init
 TARGET_INIT_VENDOR_LIB := libinit_msm8916

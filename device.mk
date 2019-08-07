@@ -96,12 +96,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/configs/external_camera_config.xml:$(TARGET_COPY_OUT_VENDOR)/etc/external_camera_config.xml
 
-# Doze
-ifneq ($(PRODUCT_IS_LINEAGE),false)
-PRODUCT_PACKAGES += \
-	SamsungDoze
-endif
-
 # ThermalController app
 PRODUCT_PACKAGES += \
     ThermalController
@@ -334,10 +328,8 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/configs/thermal-engine.conf:$(TARGET_COPY_OUT_VENDOR)/etc/thermal-engine.conf
 
 # Trust
-ifneq ($(PRODUCT_IS_LINEAGE),false)
 PRODUCT_PACKAGES += \
     vendor.lineage.trust@1.0-service
-endif
 
 # Thermal
 PRODUCT_PACKAGES += \
