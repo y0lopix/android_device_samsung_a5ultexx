@@ -310,6 +310,7 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     android.hardware.sensors@1.0-impl.samsung8916 \
     android.hardware.sensors@1.0-service.samsung8916 \
+    sensors.msm8916
 
 PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/configs/sensors/_hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/_hals.conf
