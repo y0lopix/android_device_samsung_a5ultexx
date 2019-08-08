@@ -43,6 +43,7 @@ PRODUCT_PACKAGES += \
     audio.usb.default \
     libaudioresampler \
     audio_amplifier.msm8916 \
+    libtfa98xx \
     libqcompostprocbundle \
     libqcomvisualizer \
     libqcomvoiceprocessing \
