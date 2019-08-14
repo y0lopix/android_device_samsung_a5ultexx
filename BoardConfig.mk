@@ -24,7 +24,7 @@ BOARD_VENDOR := samsung
 FORCE_32_BIT := true
 TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
-TARGET_ARCH_VARIANT := armv8-a
+TARGET_ARCH_VARIANT := armv7-a-neon
 TARGET_BOARD_PLATFORM := msm8916
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno306
 TARGET_CPU_CORTEX_A53 := true
@@ -40,10 +40,6 @@ TARGET_OTA_ASSERT_DEVICE := a5ulte,a5ultexx,a5lte,a53gxx,a53g,a5ltexx,a5ltedd,a5
 
 # Audio
 AUDIO_FEATURE_ENABLED_KPI_OPTIMIZE := true
-AUDIO_FEATURE_SAMSUNG_DUAL_SIM := true
-AUDIO_FEATURE_ENABLED_MULTI_VOICE_SESSIONS := true
-AUDIO_FEATURE_ENABLED_COMPRESS_VOIP := false
-AUDIO_FEATURE_ENABLED_INCALL_MUSIC := true
 BOARD_USES_ALSA_AUDIO := true
 BOARD_USES_GENERIC_AUDIO := true
 TARGET_USES_QCOM_MM_AUDIO := true
@@ -87,9 +83,7 @@ HWUI_COMPILE_FOR_PERF := true
 
 # LineageHW
 ifneq ($(PRODUCT_IS_LINEAGE),false)
-JAVA_SOURCE_OVERLAYS += \
-	org.lineageos.hardware|hardware/samsung/lineagehw|**/*.java \
-	org.lineageos.hardware|$(DEVICE_PATH)/lineagehw|**/*.java
+BOARD_HARDWARE_CLASS += $(DEVICE_PATH)/lineagehw
 endif
 
 # Dexpreopt
