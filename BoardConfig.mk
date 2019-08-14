@@ -229,9 +229,6 @@ HAVE_SYNAPTICS_I2C_RMI4_FW_UPGRADE := true
 # Recovery
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.qcom
 
-# ReleaseTools
-TARGET_RELEASETOOLS_EXTENSIONS := $(DEVICE_PATH)/releasetools
-
 # RIL
 BOARD_MODEM_TYPE := xmm7260
 BOARD_PROVIDES_LIBRIL := true
@@ -245,7 +242,6 @@ BOARD_SEPOLICY_DIRS += \
 
 # Manifest
 DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/manifest.xml
-DEVICE_MATRIX_FILE := $(DEVICE_PATH)/compatibility_matrix.xml
 
 # Shims
 TARGET_LD_SHIM_LIBS := \
