@@ -123,9 +123,7 @@ PRODUCT_PACKAGES += \
     libgenlock \
     libtinyxml \
     libtinyxml2 \
-    memtrack.msm8916 \
-    libjni_livedisplay \
-    vendor.lineage.livedisplay@2.0-service.samsung-qcom
+    memtrack.msm8916
 
 # DRM
 PRODUCT_PACKAGES += \
@@ -211,28 +209,6 @@ PRODUCT_PACKAGES += \
     libcurl \
     libkeyutils \
     tcpdump
-
-# NFC
-PRODUCT_COPY_FILES += \
-	$(DEVICE_PATH)/configs/nfc/nfcee_access.xml:$(TARGET_COPY_OUT_VENDOR)/etc/nfcee_access.xml \
-	$(DEVICE_PATH)/configs/nfc/libnfc-nci.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nci.conf \
-	$(DEVICE_PATH)/configs/nfc/libnfc-sec.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-sec.conf \
-	$(DEVICE_PATH)/configs/nfc/libnfc-sec-hal.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-sec-hal.conf
-
-PRODUCT_COPY_FILES += \
-       frameworks/base/nfc-extras/com.android.nfc_extras.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/com.android.nfc_extras.xml \
-       frameworks/native/data/etc/android.hardware.nfc.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.xml \
-       frameworks/native/data/etc/android.hardware.nfc.hce.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.hce.xml
-
-PRODUCT_PACKAGES += \
-      libnfc-nci \
-      libnfc_nci_jni \
-      NfcNci \
-      Tag \
-      com.android.nfc_extras \
-      android.hardware.nfc@1.0-impl \
-      android.hardware.nfc@1.0-service \
-      vendor.samsung.hardware.nfc@1.0-service.rc
 
 # Permissions
 PRODUCT_COPY_FILES += \
@@ -332,12 +308,6 @@ PRODUCT_BOOT_JARS += \
 PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/configs/thermal-engine.conf:$(TARGET_COPY_OUT_VENDOR)/etc/thermal-engine.conf
 
-# Trust
-ifneq ($(PRODUCT_IS_LINEAGE),false)
-PRODUCT_PACKAGES += \
-    vendor.lineage.trust@1.0-service
-endif
-
 # Thermal
 PRODUCT_PACKAGES += \
     android.hardware.thermal@1.0-impl \
@@ -349,28 +319,23 @@ PRODUCT_PACKAGES += \
 
 # USB HAL
 PRODUCT_PACKAGES += \
-    android.hardware.usb@1.0-service.basic
+    android.hardware.usb@1.0-service
 
 # Vibrator
 PRODUCT_PACKAGES += \
     android.hardware.vibrator@1.0-impl \
     android.hardware.vibrator@1.0-service
 
-# HIDL vendor support
-PRODUCT_PACKAGES += \
-    android.hidl.base@1.0 \
-    android.hidl.manager@1.0
-
 # Wi-Fi
 PRODUCT_PACKAGES += \
+    android.hardware.wifi@1.0-service \
+    libwpa_client \
+    wificond \
     libwcnss_qmi \
     wcnss_service \
     hostapd \
     wpa_supplicant \
     wpa_supplicant.conf
-
-PRODUCT_PACKAGES += \
-    android.hardware.wifi@1.0-service
 
 PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/configs/wifi/p2p_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/p2p_supplicant_overlay.conf \
