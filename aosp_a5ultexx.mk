@@ -47,11 +47,3 @@ PRODUCT_GMS_CLIENTID_BASE := android-samsung
 # Gapps
 TARGET_GAPPS_ARCH := arm
 TARGET_MINIMAL_APPS := true
-
-PRODUCT_BUILD_PROP_OVERRIDES += \
-    TARGET_DEVICE="a5ultexx" \
-    PRODUCT_NAME="a5ultexx" \
-    PRIVATE_BUILD_DESC="a5ultexx-user 6.0.1 MMB29M A500FUXXS1CPK6 release-keys"
-
-# Set BUILD_FINGERPRINT variable to be picked up by build.prop
-BUILD_FINGERPRINT := samsung/a5ultexx/a5ulte:6.0.1/MMB29M/A500FUXXS1CPK6:user/release-keys
